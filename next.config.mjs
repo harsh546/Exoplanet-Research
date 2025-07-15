@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export", // enables static export (required for GitHub Pages)
+  basePath: "/exoplanet-research", // sets the base path for GitHub Pages
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -9,6 +11,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;
