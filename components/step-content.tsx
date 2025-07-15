@@ -1,11 +1,11 @@
-import type { Step } from "@/types/step"
-import { Button } from "@/components/ui/button"
-import { ExternalLink } from "lucide-react"
-import CodeBlock from "@/components/code-block"
-import Image from "next/image"
+import type { Step } from "@/types/step";
+import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
+import CodeBlock from "@/components/code-block";
+import Image from "next/image";
 
 interface StepContentProps {
-  step: Step
+  step: Step;
 }
 
 export default function StepContent({ step }: StepContentProps) {
@@ -14,52 +14,80 @@ export default function StepContent({ step }: StepContentProps) {
       <h2 className="text-xl font-bold mb-1">
         {step.number}. {step.title}
       </h2>
-      {step.subtitle && <p className="text-muted-foreground mb-4">{step.subtitle}</p>}
+      {step.subtitle && (
+        <p className="text-muted-foreground mb-4">{step.subtitle}</p>
+      )}
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {step.content.map((item, index) => {
           switch (item.type) {
             case "text":
               return (
-                <p key={index} className="text-sm leading-relaxed">
-                  {item.content}
-                </p>
-              )
+                <p
+                  key={index}
+                  className="text-sm leading-relaxed whitespace-pre-line"
+                  dangerouslySetInnerHTML={{ __html: item.content ?? "" }}
+                />
+              );
 
             case "image":
               return (
-                <div key={index} className="my-4 border rounded-md overflow-hidden">
+                <div
+                  key={index}
+                  className="my-4 border rounded-md overflow-hidden"
+                >
                   <Image
                     src={item.url || "/placeholder.svg"}
                     alt={item.alt || step.title}
                     width={item.width || 800}
                     height={item.height || 450}
-                    className="w-full h-auto"
+                    className="w-auto h-auto mx-auto object-cover"
                   />
                   {item.caption && (
-                    <p className="text-xs text-center text-muted-foreground p-2 bg-gray-50">{item.caption}</p>
+                    <p className="text-xs text-center text-muted-foreground p-2 bg-gray-50">
+                      {item.caption}
+                    </p>
                   )}
                 </div>
-              )
+              );
 
             case "code":
-              return <CodeBlock key={index} code={item.content} language={item.language} />
+              return (
+                <CodeBlock
+                  key={index}
+                  code={item.content ?? ""}
+                  language={item.language}
+                />
+              );
 
             case "link":
               return (
                 <div key={index} className="my-2">
-                  <Button variant="link" className="p-0 h-auto text-blue-500 flex items-center gap-1" asChild>
-                    <a href={item.url} target="_blank" rel="noopener noreferrer">
+                  <Button
+                    variant="link"
+                    className="p-0 h-auto text-blue-500 flex items-center gap-1"
+                    asChild
+                  >
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {item.text} <ExternalLink className="h-3 w-3" />
                     </a>
                   </Button>
                 </div>
-              )
+              );
 
             case "question":
               return (
-                <div key={index} className="bg-blue-50 border border-blue-200 rounded-md p-4 my-4">
-                  <h3 className="font-medium text-blue-800 mb-2">{item.question}</h3>
+                <div
+                  key={index}
+                  className="bg-blue-50 border border-blue-200 rounded-md p-4 my-4"
+                >
+                  <h3 className="font-medium text-blue-800 mb-2">
+                    {item.question}
+                  </h3>
                   {item.options && (
                     <div className="space-y-2 mt-2">
                       {item.options.map((option, optIndex) => (
@@ -70,7 +98,10 @@ export default function StepContent({ step }: StepContentProps) {
                             name={`question-${index}`}
                             className="h-4 w-4 text-blue-600"
                           />
-                          <label htmlFor={`option-${index}-${optIndex}`} className="text-sm">
+                          <label
+                            htmlFor={`option-${index}-${optIndex}`}
+                            className="text-sm"
+                          >
                             {option}
                           </label>
                         </div>
@@ -80,18 +111,20 @@ export default function StepContent({ step }: StepContentProps) {
                   {item.inputType === "text" && (
                     <input
                       type="text"
-                      placeholder={item.placeholder || "Type your answer here..."}
+                      placeholder={
+                        item.placeholder || "Type your answer here..."
+                      }
                       className="w-full mt-2 p-2 border rounded-md text-sm"
                     />
                   )}
                 </div>
-              )
+              );
 
             default:
-              return null
+              return null;
           }
         })}
       </div>
     </div>
-  )
+  );
 }

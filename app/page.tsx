@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Clock, X } from "lucide-react"
-import StepSidebar from "@/components/step-sidebar"
-import StepContent from "@/components/step-content"
-import { Button } from "@/components/ui/button"
-import { demoProject } from "@/data/demo-project"
+import { useState } from "react";
+import { Clock, X } from "lucide-react";
+import StepSidebar from "@/components/step-sidebar";
+import StepContent from "@/components/step-content";
+import { Button } from "@/components/ui/button";
+import { demoProject } from "@/data/demo-project";
 
 export default function Home() {
-  const [activeStep, setActiveStep] = useState(0)
-  const [timeRemaining, setTimeRemaining] = useState(50) // in minutes
+  const [activeStep, setActiveStep] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(14); // in minutes
 
   const handleNextStep = () => {
     if (activeStep < demoProject.steps.length - 1) {
-      setActiveStep(activeStep + 1)
+      setActiveStep(activeStep + 1);
     }
-  }
+  };
 
   const handlePreviousStep = () => {
     if (activeStep > 0) {
-      setActiveStep(activeStep - 1)
+      setActiveStep(activeStep - 1);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -35,7 +35,7 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Clock className="h-4 w-4" />
-          <span>{timeRemaining} mins remaining</span>
+          <span>{timeRemaining} Days</span>
         </div>
       </header>
 
@@ -43,7 +43,11 @@ export default function Home() {
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <div className="w-72 border-r overflow-y-auto bg-gray-50">
-          <StepSidebar steps={demoProject.steps} activeStep={activeStep} onStepClick={setActiveStep} />
+          <StepSidebar
+            steps={demoProject.steps}
+            activeStep={activeStep}
+            onStepClick={setActiveStep}
+          />
         </div>
 
         {/* Content Area */}
@@ -52,15 +56,22 @@ export default function Home() {
 
           {/* Navigation */}
           <div className="flex justify-between p-4 border-t">
-            <Button variant="outline" onClick={handlePreviousStep} disabled={activeStep === 0}>
+            <Button
+              variant="outline"
+              onClick={handlePreviousStep}
+              disabled={activeStep === 0}
+            >
               Back
             </Button>
-            <Button onClick={handleNextStep} disabled={activeStep === demoProject.steps.length - 1}>
+            <Button
+              onClick={handleNextStep}
+              disabled={activeStep === demoProject.steps.length - 1}
+            >
               Next
             </Button>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
